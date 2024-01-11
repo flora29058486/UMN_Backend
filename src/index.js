@@ -13,8 +13,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // 示例路由
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get('/test', (req, res) => {
+  res.json({
+    message: "Hello World!",
+  });
 });
 
 // Notion get auth token
