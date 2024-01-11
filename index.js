@@ -28,43 +28,47 @@ app.get('/test', (req, res) => {
 
 // Notion get auth token
 app.get('/api/notion', async (req, res) => {
-
   const clientId = process.env.OAUTH_CLIENT_ID;
   const clientSecret = process.env.OAUTH_CLIENT_SECRET;
   const redirectUri = process.env.OAUTH_REDIRECT_URI;
   const authorizationCode = req.query.code;
-  console.log(authorizationCode);
-  console.log("redirect_uri", redirectUri);
+  console.log('Authorization Code:', authorizationCode);
+  console.log('Redirect URI:', redirectUri);
 
-  if (authorizationCode) {
-    try {
-      // encode in base 64
-      const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  if (!authorizationCode) {
+    return res.status(400).send('未收到authorizationCode');
+  }
 
-      const response = await fetch("https://api.notion.com/v1/oauth/token", {
-        method: "POST",
-        headers: {
+  try {
+    // encode in base 64
+    const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+
+    const response = await fetch("https://api.notion.com/v1/oauth/token", {
+      method: "POST",
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Basic ${encoded}`,
       },
-        body: JSON.stringify({
-          grant_type: "authorization_code",
-          code: authorizationCode,
-          redirect_uri: redirectUri,
-        }),
-      });
+      body: JSON.stringify({
+        grant_type: "authorization_code",
+        code: authorizationCode,
+        redirect_uri: redirectUri,
+      }),
+    });
 
-      const accessToken = await response.json();
-
-      console.log("accessToken", accessToken);
-      res.status(200).json(accessToken);
-
-    } catch (error) {
-      res.status(400).send('未收到授權碼');
+    if (!response.ok) {
+      // 如果響應不是OK，則拋出錯誤
+      throw new Error(`HTTP Error: ${response.status}`);
     }
-  } else {
-    res.status(400).send('未收到authorizationCode');
+
+    const accessToken = await response.json();
+    console.log('Access Token:', accessToken);
+    res.status(200).json(accessToken);
+
+  } catch (error) {
+    console.error('Error fetching access token:', error);
+    res.status(500).send(`錯誤發生: ${error.message || error}`);
   }
 });
 
