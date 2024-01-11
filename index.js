@@ -28,23 +28,37 @@ app.get('/test', (req, res) => {
 
 // Notion get auth token
 app.get('/api/notion', async (req, res) => {
+
+  const clientId = process.env.OAUTH_CLIENT_ID;
+  const clientSecret = process.env.OAUTH_CLIENT_SECRET;
+  const redirectUri = process.env.OAUTH_REDIRECT_URI;
   const authorizationCode = req.query.code;
   console.log(authorizationCode);
-  console.log("redirect_uri", process.env.NOTION_AUTH_URL);
+  console.log("redirect_uri", redirectUri);
+
   if (authorizationCode) {
-    // 使用Axios向Notion請求存取令牌
     try {
-      const response = await axios.post('https://api.notion.com/v1/oauth/token', {
-        grant_type: 'authorization_code',
-        code: authorizationCode,
-        redirect_uri: process.env.NOTION_AUTH_URL,
+      // encode in base 64
+      const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+
+      const response = await fetch("https://api.notion.com/v1/oauth/token", {
+        method: "POST",
+        headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Basic ${encoded}`,
+      },
+        body: JSON.stringify({
+          grant_type: "authorization_code",
+          code: authorizationCode,
+          redirect_uri: redirectUri,
+        }),
       });
-      console.log(response.data);
-    
-      const accessToken = response.data.access_token;
-      // 存儲和使用這個令牌
+
+      const accessToken = await response.json();
+
+      console.log("accessToken", accessToken);
       res.status(200).json(accessToken);
-      // return accessToken;
 
     } catch (error) {
       res.status(400).send('未收到授權碼');
