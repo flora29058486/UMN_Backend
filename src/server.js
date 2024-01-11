@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 import { env } from "./utils/env.js";
 
-import { testList } from "./notion.js";
+import { listDatabases } from "./notion.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,8 +14,8 @@ app.use(cors());
 // 使用 express 创建一个路由处理函数来调用 testList 函数
 app.get('/notion-users', async (req, res) => {
   try {
-    const usersList = await testList();
-    res.json(usersList);
+    const Databases = await listDatabases();
+    res.json(Databases);
   } catch (error) {
     res.status(500).send(error.message);
   }
