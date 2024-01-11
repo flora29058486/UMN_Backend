@@ -13,15 +13,24 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // 示例路由
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   res.json({
     message: "Hello World!",
+  });
+});
+
+// 示例路由
+app.get('/test', (req, res) => {
+  res.json({
+    message: "Test",
   });
 });
 
 // Notion get auth token
 app.get('/api/notion', async (req, res) => {
   const authorizationCode = req.query.code;
+  console.log(authorizationCode);
+  console.log("redirect_uri", process.env.NOTION_AUTH_URL);
   if (authorizationCode) {
     // 使用Axios向Notion請求存取令牌
     try {
@@ -30,6 +39,7 @@ app.get('/api/notion', async (req, res) => {
         code: authorizationCode,
         redirect_uri: process.env.NOTION_AUTH_URL,
       });
+      console.log(response.data);
     
       const accessToken = response.data.access_token;
       // 存儲和使用這個令牌
