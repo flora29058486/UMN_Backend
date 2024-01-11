@@ -53,7 +53,7 @@ app.get('/api/notion', async (req, res) => {
       body: JSON.stringify({
         grant_type: "authorization_code",
         code: authorizationCode,
-        redirect_uri: redirectUri,
+        // redirect_uri: redirectUri,
       }),
     });
 
