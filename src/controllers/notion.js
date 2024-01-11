@@ -60,3 +60,40 @@ export const putBet = async (req, res) => {
     genericErrorHandler(error, res);
   }
 };
+
+// Notion get auth token
+export const getAuthToken = async (req, res) => {
+  const authorizationCode = req.query.code;
+
+  // 使用Axios向Notion請求存取令牌
+  try {
+    const response = await axios.post('https://api.notion.com/v1/oauth/token', {
+      grant_type: 'authorization_code',
+      code: authorizationCode,
+      redirect_uri: process.env.NOTION_AUTH_URL,
+    });
+  
+    const accessToken = response.access_token;
+    // 存儲和使用這個令牌
+    return accessToken;
+
+  } catch (error) {
+    genericErrorHandler(error, res);
+  }
+};
+
+app.get('/your-redirect-uri', async (req, res) => {
+  const authorizationCode = req.query.code;
+
+  // 使用Axios向Notion請求存取令牌
+  try {
+    const response = await axios.post('https://api.notion.com/v1/oauth/token', {
+      // ... 包括需要的身份驗證參數
+    });
+
+    const accessToken = response.data.access_token;
+    // 使用獲得的存取令牌進行進一步操作
+  } catch (error) {
+    // 處理錯誤
+  }
+});

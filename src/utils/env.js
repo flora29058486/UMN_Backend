@@ -6,5 +6,7 @@ dotenv.config();
 export const env = {
   PORT: process.env.PORT || 3000,
   MONGO_URL: process.env.MONGO_URL || "",
-  NOTION_ACCESS_TOKEN: process.env.OAUTH_CLIENT_SECRET || "",
+  OAUTH_CLIENT_ID: process.env.OAUTH_CLIENT_ID || "",
+  OAUTH_CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET || "",
+  REDIRECT_URI: process.env.NOTION_AUTH_URL || "",
 };
