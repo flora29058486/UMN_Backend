@@ -12,6 +12,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// 示例路由
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 // Notion get auth token
 app.get('/api/notion', async (req, res) => {
   const authorizationCode = req.query.code;
