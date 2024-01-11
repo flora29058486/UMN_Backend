@@ -56,12 +56,7 @@ app.get('/api/notion', async (req, res) => {
         redirect_uri: redirectUri,
       }),
     });
-
-    if (!response.ok) {
-      // 如果響應不是OK，則拋出錯誤
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
-
+    
     const accessToken = await response.json();
     console.log('Access Token:', accessToken);
     res.status(200).json(accessToken);
