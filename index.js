@@ -56,7 +56,7 @@ app.get('/api/notion', async (req, res) => {
         redirect_uri: redirectUri,
       }),
     });
-    
+
     const accessToken = await response.json();
     console.log('Access Token:', accessToken);
     res.status(200).json(accessToken);
@@ -66,6 +66,7 @@ app.get('/api/notion', async (req, res) => {
     res.status(500).send(`錯誤發生: ${error.message || error}`);
   }
 });
+
 
 mongoose
   .connect(env.MONGO_URL)
