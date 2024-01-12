@@ -101,20 +101,3 @@ mongoose
     console.log(error.message);
   });
   
-
-//   Authorization Code: 03c37a66-77a8-47dd-949d-2aa05fbdc94f
-// Redirect URI: https%3A%2F%2Fumn-backend.vercel.app%2Fapi%2Fnotion
-// Access Token: {
-//   access_token: 'secret_5tS03GMVZVG8cH1CZL9fERBBTH7EevxliRzNxY4ApEn',
-//   token_type: 'bearer',
-//   bot_id: '157776e0-5756-4af0-8b9c-47ce9e55fc7b',
-//   workspace_name: '嘎啦嘎啦',
-//   workspace_icon: null,
-//   workspace_id: '5f8acf10-571a-443f-b11a-57fc9f7ec1c6',
-//   owner: {
-//     type: 'user',
-//     user: { object: 'user', id: 'b9837134-ba51-42b0-ad97-0e3e06ff581b' }
-//   },
-//   duplicated_template_id: null,
-//   request_id: '9de779e3-4d8e-467b-aed1-0a857730bede'
-// }
