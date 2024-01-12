@@ -60,23 +60,23 @@ app.get('/api/notion', async (req, res) => {
 
     const accessToken = await response.json();
     console.log('Access Token:', accessToken);
-    res.send(`<a href="electron-umn://?token=${accessToken}">Open in Electron App</a>`);
-  //   res.send(`
-  //   <html>
-  //     <head>
-  //       <script type="text/javascript">
-  //         // 页面加载后立即执行重定向
-  //         window.onload = function() {
-  //           window.location.href = 'electron-umn://?token=${accessToken}';
-  //         };
-  //       </script>
-  //     </head>
-  //     <body>
-  //       <p>Redirecting...</p>
-  //     </body>
-  //   </html>
-  // `);
-    res.status(200).json(accessToken);
+    // res.send(`<a href="electron-umn://?token=${accessToken}">Open in Electron App</a>`);
+    res.send(`
+    <html>
+      <head>
+        <script type="text/javascript">
+          // 页面加载后立即执行重定向
+          window.onload = function() {
+            window.location.href = 'electron-umn://?token=${accessToken}';
+          };
+        </script>
+      </head>
+      <body>
+        <p>Redirecting...</p>
+      </body>
+    </html>
+  `);
+    // res.status(200).json(accessToken);
 
   } catch (error) {
     console.error('Error fetching access token:', error);
