@@ -33,8 +33,8 @@ app.get('/api/notion', async (req, res) => {
   const clientSecret = process.env.OAUTH_CLIENT_SECRET;
   const redirectUri = process.env.OAUTH_REDIRECT_URI;
   const authorizationCode = req.query.code;
-  console.log('Authorization Code:', authorizationCode);
-  console.log('Redirect URI:', redirectUri);
+  // console.log('Authorization Code:', authorizationCode);
+  // console.log('Redirect URI:', redirectUri);
 
   if (!authorizationCode) {
     return res.status(400).send('未收到authorizationCode');
@@ -59,6 +59,7 @@ app.get('/api/notion', async (req, res) => {
     });
 
     const accessToken = await response.json();
+    const tokenString = JSON.stringify(accessToken);
     console.log('Access Token:', accessToken);
     // res.send(`<a href="electron-umn://?token=${accessToken}">Open in Electron App</a>`);
     res.send(`
@@ -67,7 +68,7 @@ app.get('/api/notion', async (req, res) => {
         <script type="text/javascript">
           // 页面加载后立即执行重定向
           window.onload = function() {
-            window.location.href = 'electron-umn://?token=${accessToken}';
+            window.location.href = 'electron-umn://?token=${tokenString}';
           };
         </script>
       </head>
@@ -92,7 +93,7 @@ mongoose
       console.log(`Server running on port http://localhost:${env.PORT}`),
     );
     // If the connection is successful, we will see this message in the console.
-    console.log("Connected to MongoDB");
+    // console.log("Connected to MongoDB");
   })
   .catch((error) => {
     // Catch any errors that occurred while starting the server
