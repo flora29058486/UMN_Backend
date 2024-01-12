@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body>
+      <button id="sendToken">點擊按鈕將TOKEN授權回UMN</button>
+      <script>
+          document.getElementById('sendToken').addEventListener('click', function() {
+              // 使用Electron的IPC機制發送存取令牌
+              const token = '${accessToken.access_token}';
+              // 在這裡添加將令牌發送到Electron應用的代碼
+          });
+      </script>
+  </body>
+</html>
