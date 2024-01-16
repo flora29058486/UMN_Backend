@@ -16,7 +16,7 @@ app.use(cors());
 // 示例路由
 app.get('/', (req, res) => {
   res.json({
-    message: "Hello World!",
+    message: "摸喜摸喜",
   });
 });
 
@@ -73,7 +73,7 @@ app.get('/api/notion', async (req, res) => {
         </script>
       </head>
       <body>
-        <p>Redirecting...</p>
+        <p>如果打開UMN應該就完成了!可以關掉了~</p>
       </body>
     </html>
   `);
