@@ -66,13 +66,13 @@ app.get('/api/notion', async (req, res) => {
     <html>
       <head>
         <script type="text/javascript">
-          function redirectToElectronApp() {
+          // 页面加载后立即执行重定向
+          window.onload = function() {
             window.location.href = 'electron-umn://?token=${tokenString}';
-          }
+          };
         </script>
       </head>
       <body>
-        <button onclick="redirectToElectronApp()">開啟應用</button>
         <p>如果打開UMN應該就完成了!可以關掉了~</p>
       </body>
     </html>
