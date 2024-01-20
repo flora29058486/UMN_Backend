@@ -71,9 +71,16 @@ app.get('/api/notion', async (req, res) => {
             window.location.href = 'electron-umn://?token=${tokenString}';
           };
         </script>
+        <script type="text/javascript">
+          function redirectToUMN() {
+            window.location.href = 'electron-umn://?token=${tokenString}';
+          }
+        </script>
       </head>
       <body>
         <p>如果打開UMN應該就完成了!可以關掉了~</p>
+        <p>如果沒有跳出彈窗詢問是否打開UMN就用以下按鈕看看</p>
+        <button onclick="redirectToUMN()">打開UMN</button>
       </body>
     </html>
   `);
