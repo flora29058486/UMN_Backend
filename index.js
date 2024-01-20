@@ -95,7 +95,6 @@ app.get('/api/notion', async (req, res) => {
 });
 
 
-
 mongoose
   .connect(env.MONGO_URL)
   .then(() => {
