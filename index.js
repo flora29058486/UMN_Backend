@@ -33,7 +33,7 @@ app.get('/api/notion', async (req, res) => {
   const clientSecret = process.env.OAUTH_CLIENT_SECRET;
   const redirectUri = process.env.OAUTH_REDIRECT_URI;
   const authorizationCode = req.query.code;
-  
+
   if (!authorizationCode) {
     return res.status(400).send('未收到authorizationCode');
   }
@@ -57,6 +57,7 @@ app.get('/api/notion', async (req, res) => {
     const accessToken = await response.json();
     const tokenString = JSON.stringify(accessToken);
     console.log('Access Token:', accessToken);
+
 
     if (tokenString) {
       res.send(`
@@ -88,6 +89,7 @@ app.get('/api/notion', async (req, res) => {
       // 如果tokenString為空，可以發送錯誤響應或執行其他操作
       res.status(500).send('未獲得有效的tokenString');
     }
+
   } catch (error) {
     console.error('Error fetching access token:', error);
     res.status(500).send(`錯誤發生: ${error.message || error}`);
