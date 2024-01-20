@@ -33,15 +33,12 @@ app.get('/api/notion', async (req, res) => {
   const clientSecret = process.env.OAUTH_CLIENT_SECRET;
   const redirectUri = process.env.OAUTH_REDIRECT_URI;
   const authorizationCode = req.query.code;
-  // console.log('Authorization Code:', authorizationCode);
-  // console.log('Redirect URI:', redirectUri);
-
+  
   if (!authorizationCode) {
     return res.status(400).send('未收到authorizationCode');
   }
 
   try {
-    // encode in base 64
     const encoded = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
 
     const response = await fetch("https://api.notion.com/v1/oauth/token", {
@@ -54,45 +51,48 @@ app.get('/api/notion', async (req, res) => {
       body: JSON.stringify({
         grant_type: "authorization_code",
         code: authorizationCode,
-        // redirect_uri: redirectUri,
       }),
     });
 
     const accessToken = await response.json();
     const tokenString = JSON.stringify(accessToken);
     console.log('Access Token:', accessToken);
-    // res.send(`<a href="electron-umn://?token=${accessToken}">Open in Electron App</a>`);
-    res.send(`
-    <html>
-      <head>
-        <script type="text/javascript">
-          // 页面加载后立即执行重定向
-          window.onload = function() {
-            window.location.href = 'electron-umn://?token=${tokenString}';
-          };
-        </script>
-        <script type="text/javascript">
-          function redirectToUMN() {
-            window.location.href = 'electron-umn://?token=${tokenString}';
-          }
-        </script>
-      </head>
-      <body>
-        <p>如果打開UMN應該就完成了!可以關掉了~</p>
-        <p>如果沒有跳出彈窗詢問是否打開UMN就用以下按鈕看看</p>
-        <button onclick="redirectToUMN()">打開UMN</button>
-        <p>如果還是沒有跳出彈窗，請直接前往以下網址...</p>
-        <p>electron-umn://?token=${tokenString}</p>
-      </body>
-    </html>
-  `);
-    // res.status(200).json(accessToken);
 
+    if (tokenString) {
+      res.send(`
+        <html>
+          <head>
+            <script type="text/javascript">
+              // 页面加载后立即执行重定向
+              window.onload = function() {
+                window.location.href = 'electron-umn://?token=${tokenString}';
+              };
+            </script>
+            <script type="text/javascript">
+              function redirectToUMN() {
+                window.location.href = 'electron-umn://?token=${tokenString}';
+              }
+            </script>
+          </head>
+          <body>
+            <p>如果打開UMN應該就完成了!可以關掉了~</p>
+            <p>如果沒有跳出彈窗詢問是否打開UMN就用以下按鈕看看</p>
+            <button onclick="redirectToUMN()">打開UMN</button>
+            <p>如果還是沒有跳出彈窗，請直接前往以下網址...</p>
+            <p>electron-umn://?token=${tokenString}</p>
+          </body>
+        </html>
+      `);
+    } else {
+      // 如果tokenString為空，可以發送錯誤響應或執行其他操作
+      res.status(500).send('未獲得有效的tokenString');
+    }
   } catch (error) {
     console.error('Error fetching access token:', error);
     res.status(500).send(`錯誤發生: ${error.message || error}`);
   }
 });
+
 
 
 mongoose
